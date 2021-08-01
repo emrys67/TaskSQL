@@ -2,16 +2,16 @@ package com.foxminded.jdbc.entity;
 
 public class Student {
     private Long id;
-    private Long group_id;
+    private Long groupId;
     private String name;
     private String lastname;
 
     public Student() {
     }
 
-    public Student(Long id, Long group_id, String name, String lastname) {
+    public Student(Long id, Long groupId, String name, String lastname) {
         this.id = id;
-        this.group_id = group_id;
+        this.groupId = groupId;
         this.name = name;
         this.lastname = lastname;
     }
@@ -24,12 +24,12 @@ public class Student {
         this.id = id;
     }
 
-    public Long getGroup_id() {
-        return group_id;
+    public Long getGroupId() {
+        return groupId;
     }
 
-    public void setGroup_id(Long group_id) {
-        this.group_id = group_id;
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     public String getName() {

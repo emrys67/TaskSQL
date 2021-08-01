@@ -24,13 +24,13 @@ public class ConnectionManager {
 
     public static Connection open(String database) {
         try {
-            if (database == BANANABASE_DB) {
+            if (database.equals(BANANABASE_DB)) {
                 return DriverManager.getConnection(
                         PropertiesUtil.get(BANANABASE_URL_KEY),
                         PropertiesUtil.get(BANANABASE_USERNAME_KEY),
                         PropertiesUtil.get(BANANABASE_PASSWORD_KEY)
                 );
-            } else if (database == BANANASCHOOL_DB) {
+            } else if (database.equals(BANANASCHOOL_DB)) {
                 return DriverManager.getConnection(
                         PropertiesUtil.get(BANANASCHOOL_URL_KEY),
                         PropertiesUtil.get(BANANASCHOOL_USERNAME_KEY),

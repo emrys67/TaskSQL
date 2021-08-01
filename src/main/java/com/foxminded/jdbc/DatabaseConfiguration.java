@@ -9,6 +9,7 @@ import com.foxminded.jdbc.dao.StudentDao;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,38 +29,31 @@ public class DatabaseConfiguration {
     }
 
     private void runDdlScript() {
-        String toRun = "";
+        StringBuilder toRun = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(DDL_FILE_PATH));
              Connection connectionOne = ConnectionManager.open(BANANABASE_DB)) {
             while (reader.ready()) {
-                toRun += reader.readLine();
+                toRun.append(reader.readLine());
             }
             var statement = connectionOne.createStatement();
-            statement.execute(toRun);
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(EXCEPTION_SQL);
-        } catch (IOException e) {
-            throw new RuntimeException(EXCEPTION_SQL);
-        } catch (SQLException throwables) {
+            statement.execute(toRun.toString());
+            statement.close();
+        } catch (SQLException | IOException throwables) {
             throw new RuntimeException(EXCEPTION_SQL);
         }
     }
 
     private void runDmlSript() {
-        String toRun = "";
+        StringBuilder toRun = new StringBuilder();
         try (BufferedReader secondReader = new BufferedReader(new FileReader(DML_FILE_PATH));
              var connection = ConnectionManager.open(BANANASCHOOL_DB)) {
             while (secondReader.ready()) {
-                toRun += secondReader.readLine();
+                toRun.append(secondReader.readLine());
             }
             var statement = connection.createStatement();
-            statement.execute(toRun);
-        } catch (SQLException throwables) {
-            throw new RuntimeException(EXCEPTION_SQL);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(EXCEPTION_SQL);
-        } catch (IOException e) {
+            statement.execute(toRun.toString());
+            statement.close();
+        } catch (SQLException | IOException throwables) {
             throw new RuntimeException(EXCEPTION_SQL);
         }
     }
@@ -128,36 +122,31 @@ public class DatabaseConfiguration {
     }
 
     private void assignStudentsToGroups() {
-        Random rnd = new Random();
         for (int i = 1; i < 11; i++) {
             for (int a = 0; a < 10; a++) {
                 long student_id = (long) ((Math.random() * (199)) + 1);
-                if (StudentDao.getInstance().findById(student_id).getGroup_id() == 0) {
+                if (StudentDao.getInstance().findById(student_id).getGroupId() == 0) {
                     StudentDao.getInstance().setGroup(student_id, i);
-                } else {
-                    if (a != 0) {
-                        a--;
-                    }
                 }
             }
         }
         for (int i = 0; i < 100; i++) {
-            long student_id = (long) ((Math.random() * (199)) + 1);
-            long group_id = (long) ((Math.random() * (9)) + 1);
-            if (StudentDao.getInstance().findById(student_id).getGroup_id() == 0) {
-                StudentDao.getInstance().setGroup(student_id, group_id);
+            long studentId = (long) ((Math.random() * (199)) + 1);
+            long groupId = (long) ((Math.random() * (9)) + 1);
+            if (StudentDao.getInstance().findById(studentId).getGroupId() == 0) {
+                StudentDao.getInstance().setGroup(studentId, groupId);
             }
         }
     }
 
     private void assignCourses() {
-        long course_id;
+        long courseId;
         int repeats;
         for (int i = 1; i < 201; i++) {
             repeats = (int) ((Math.random() * (2)) + 1);
             for (int a = 0; a < repeats; a++) {
-                course_id = (long) ((Math.random() * (9)) + 1);
-                StudentCourseDao.getInstance().insert(i, course_id);
+                courseId = (long) ((Math.random() * (9)) + 1);
+                StudentCourseDao.getInstance().insert(i, courseId);
             }
         }
     }

@@ -1,30 +1,30 @@
 package com.foxminded.jdbc.entity;
 
 public class StudentCourse {
-    private Long student_id;
-    private Long course_id;
+    private Long studentId;
+    private Long courseId;
 
     public StudentCourse() {
     }
 
-    public StudentCourse(Long student_id, Long course_id) {
-        this.student_id = student_id;
-        this.course_id = course_id;
+    public StudentCourse(Long studentId, Long courseId) {
+        this.studentId = studentId;
+        this.courseId = courseId;
     }
 
-    public Long getStudent_id() {
-        return student_id;
+    public Long getStudentId() {
+        return studentId;
     }
 
-    public void setStudent_id(Long student_id) {
-        this.student_id = student_id;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
-    public Long getCourse_id() {
-        return course_id;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public void setCourse_id(Long course_id) {
-        this.course_id = course_id;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 }
