@@ -1,7 +1,7 @@
 package com.foxminded.jdbc.entity;
 
 public class Course {
-    private long id;
+    private Long id;
     private String name;
     private String discription;
 
@@ -9,13 +9,13 @@ public class Course {
 
     }
 
-    public Course(long id, String name, String discription) {
+    public Course(Long id, String name, String discription) {
         this.id = id;
         this.name = name;
         this.discription = discription;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

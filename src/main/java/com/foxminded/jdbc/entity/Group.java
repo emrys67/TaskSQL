@@ -1,18 +1,18 @@
 package com.foxminded.jdbc.entity;
 
 public class Group {
-    private long id;
+    private Long id;
     private String name;
 
     public Group() {
     }
 
-    public Group(long id, String name) {
+    public Group(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
