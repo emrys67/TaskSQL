@@ -37,10 +37,10 @@ public class ConnectionManager {
                         PropertiesUtil.get(BANANASCHOOL_PASSWORD_KEY)
                 );
             } else {
-                throw new RuntimeException();
+                throw new ConnectionException();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException(e);
         }
     }
 
@@ -48,7 +48,7 @@ public class ConnectionManager {
         try {
             Class.forName(POSTGRES_DRIVER);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException(e);
         }
     }
 }

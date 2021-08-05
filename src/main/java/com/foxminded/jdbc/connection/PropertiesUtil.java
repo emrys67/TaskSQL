@@ -18,7 +18,7 @@ public class PropertiesUtil {
         try (var inputStream = PropertiesUtil.class.getClassLoader().getResourceAsStream(PROPERTIES_STRING)) {
             PROPERTIES.load(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ConnectionException(e);
         }
     }
 

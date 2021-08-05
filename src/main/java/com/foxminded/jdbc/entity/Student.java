@@ -16,6 +16,11 @@ public class Student {
         this.lastname = lastname;
     }
 
+    public Student(String name, String lastname) {
+        this.name = name;
+        this.lastname = lastname;
+    }
+
     public Long getId() {
         return id;
     }
@@ -46,6 +51,16 @@ public class Student {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", groupId=" + groupId +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
     }
 }
 

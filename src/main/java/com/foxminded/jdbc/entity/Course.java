@@ -6,11 +6,15 @@ public class Course {
     private String discription;
 
     public Course() {
-
     }
 
     public Course(Long id, String name, String discription) {
         this.id = id;
+        this.name = name;
+        this.discription = discription;
+    }
+
+    public Course(String name, String discription) {
         this.name = name;
         this.discription = discription;
     }
@@ -37,5 +41,14 @@ public class Course {
 
     public void setDiscription(String discription) {
         this.discription = discription;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", discription='" + discription + '\'' +
+                '}';
     }
 }

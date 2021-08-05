@@ -1,15 +1,16 @@
-package com.foxminded.jdbc;
+package com.foxminded.jdbc.app;
 
 import com.foxminded.jdbc.connection.ConnectionManager;
-import com.foxminded.jdbc.dao.CourseDao;
-import com.foxminded.jdbc.dao.GroupDao;
-import com.foxminded.jdbc.dao.StudentCourseDao;
-import com.foxminded.jdbc.dao.StudentDao;
+import com.foxminded.jdbc.dao.CourseJdbcDao;
+import com.foxminded.jdbc.dao.GroupJdbcDao;
+import com.foxminded.jdbc.dao.StudentJdbcDao;
+import com.foxminded.jdbc.entity.Course;
+import com.foxminded.jdbc.entity.Group;
+import com.foxminded.jdbc.entity.Student;
 
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -39,7 +40,7 @@ public class DatabaseConfiguration {
             statement.execute(toRun.toString());
             statement.close();
         } catch (SQLException | IOException throwables) {
-            throw new RuntimeException(EXCEPTION_SQL);
+            throw new UniversityAppException(EXCEPTION_SQL);
         }
     }
 
@@ -54,7 +55,7 @@ public class DatabaseConfiguration {
             statement.execute(toRun.toString());
             statement.close();
         } catch (SQLException | IOException throwables) {
-            throw new RuntimeException(EXCEPTION_SQL);
+            throw new UniversityAppException(EXCEPTION_SQL);
         }
     }
 
@@ -74,21 +75,21 @@ public class DatabaseConfiguration {
             int firstInt = rnd.nextInt(9);
             int secondInt = rnd.nextInt(9);
             String name = firstChar + secondChar + HYPHEN + firstInt + secondInt;
-            GroupDao.getInstance().insert(name);
+            GroupJdbcDao.getInstance().insert(new Group(name));
         }
     }
 
     private void createCourses() {
-        CourseDao.getInstance().insert("math", "onion");
-        CourseDao.getInstance().insert("oop", "fish");
-        CourseDao.getInstance().insert("biology", "potatto");
-        CourseDao.getInstance().insert("history", "spagetti");
-        CourseDao.getInstance().insert("english", "nudles");
-        CourseDao.getInstance().insert("spanish", "kebab");
-        CourseDao.getInstance().insert("russian", "pizza");
-        CourseDao.getInstance().insert("sleeping", "bananafish");
-        CourseDao.getInstance().insert("economy", "fingers");
-        CourseDao.getInstance().insert("algorithms", "candy");
+        CourseJdbcDao.getInstance().insert(new Course("math", "onion"));
+        CourseJdbcDao.getInstance().insert(new Course("oop", "fish"));
+        CourseJdbcDao.getInstance().insert(new Course("biology", "potatto"));
+        CourseJdbcDao.getInstance().insert(new Course("history", "spagetti"));
+        CourseJdbcDao.getInstance().insert(new Course("english", "nudles"));
+        CourseJdbcDao.getInstance().insert(new Course("spanish", "kebab"));
+        CourseJdbcDao.getInstance().insert(new Course("russian", "pizza"));
+        CourseJdbcDao.getInstance().insert(new Course("sleeping", "bananafish"));
+        CourseJdbcDao.getInstance().insert(new Course("economy", "fingers"));
+        CourseJdbcDao.getInstance().insert(new Course("algorithms", "candy"));
     }
 
     private void createStudents() {
@@ -116,25 +117,25 @@ public class DatabaseConfiguration {
         lastNames.add("Upi");
         lastNames.add("Done");
         for (int i = 0; i < 200; i++) {
-            StudentDao.getInstance().insert(names.get(rnd.nextInt((9 - 0) + 1) + 0),
-                    lastNames.get(rnd.nextInt((9 - 0) + 1) + 0));
+            StudentJdbcDao.getInstance().insert(new Student(names.get(rnd.nextInt(10)),
+                    lastNames.get(rnd.nextInt(10))));
         }
     }
 
     private void assignStudentsToGroups() {
-        for (int i = 1; i < 11; i++) {
-            for (int a = 0; a < 10; a++) {
-                long student_id = (long) ((Math.random() * (199)) + 1);
-                if (StudentDao.getInstance().findById(student_id).getGroupId() == 0) {
-                    StudentDao.getInstance().setGroup(student_id, i);
+        for (var i = 1; i < 11; i++) {
+            for (var a = 0; a < 10; a++) {
+                long studentId = (long) ((Math.random() * (199)) + 1);
+                if (StudentJdbcDao.getInstance().findById(studentId).getGroupId() == 0) {
+                    StudentJdbcDao.getInstance().setGroup(studentId, (long) i);
                 }
             }
         }
-        for (int i = 0; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
             long studentId = (long) ((Math.random() * (199)) + 1);
             long groupId = (long) ((Math.random() * (9)) + 1);
-            if (StudentDao.getInstance().findById(studentId).getGroupId() == 0) {
-                StudentDao.getInstance().setGroup(studentId, groupId);
+            if (StudentJdbcDao.getInstance().findById(studentId).getGroupId() == 0) {
+                StudentJdbcDao.getInstance().setGroup(studentId, groupId);
             }
         }
     }
@@ -142,11 +143,11 @@ public class DatabaseConfiguration {
     private void assignCourses() {
         long courseId;
         int repeats;
-        for (int i = 1; i < 201; i++) {
+        for (var i = 1; i < 201; i++) {
             repeats = (int) ((Math.random() * (2)) + 1);
-            for (int a = 0; a < repeats; a++) {
+            for (var a = 0; a < repeats; a++) {
                 courseId = (long) ((Math.random() * (9)) + 1);
-                StudentCourseDao.getInstance().insert(i, courseId);
+                CourseJdbcDao.getInstance().addStudentToTheCourse((long) i, courseId);
             }
         }
     }
