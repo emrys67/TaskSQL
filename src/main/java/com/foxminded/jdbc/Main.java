@@ -7,7 +7,7 @@ import com.foxminded.jdbc.app.UniversityApp;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         DatabaseConfiguration configuration = new DatabaseConfiguration();
         CommandsApp commandsApp = new CommandsApp();
         UniversityApp universityApp = new UniversityApp(commandsApp, configuration);
