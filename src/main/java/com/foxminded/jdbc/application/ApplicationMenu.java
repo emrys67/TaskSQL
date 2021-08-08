@@ -37,7 +37,7 @@ public class ApplicationMenu implements Menu {
     public void executeMenu() {
         String input = "";
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            while(true) {
+            while (true) {
                 System.out.println(MENU);
                 input = reader.readLine();
                 if (input.equals("a")) {
@@ -52,10 +52,9 @@ public class ApplicationMenu implements Menu {
                     addStudentToCourse(reader);
                 } else if (input.equals("f")) {
                     removeStudentFromCourse(reader);
-                }
-                else if (input.equals("g")) {
+                } else if (input.equals("g")) {
                     break;
-                }else {
+                } else {
                     throw new UniversityAppException(WRONG_INPUT);
                 }
             }
@@ -81,7 +80,7 @@ public class ApplicationMenu implements Menu {
     }
 
     public void addStudentToCourse(BufferedReader reader) {
-        addStudent.serve(reader);
+        addStudentToTheCourse.serve(reader);
     }
 
     public void removeStudentFromCourse(BufferedReader reader) {

@@ -11,9 +11,10 @@ public class AddStudentToCourseService implements Service {
     private static final String INSERT_STUDENT_ID = "Insert student id";
     private static final String STUDENT_HAS_BEEN_ADDED_TO_THE_COURSE = "Student has been added to the course";
     private static final String STUDENT_HAS_NOT_BEEN_ADDED_TO_THE_COURSE = "Student has not been added to the course";
+    private static final String BANANASCHOOL_DB = "bananaschool";
 
     public void serve(BufferedReader reader) {
-        System.out.println(CourseJdbcDao.getInstance().getAllCourses().toString());
+        System.out.println(CourseJdbcDao.getInstance(BANANASCHOOL_DB).getAllCourses().toString());
         System.out.println(INSERT_STUDENT_ID);
         long studentId;
         System.out.println(INSERT_COURSE_ID);
@@ -25,7 +26,7 @@ public class AddStudentToCourseService implements Service {
             e.printStackTrace();
             throw new UniversityAppException(STUDENT_HAS_NOT_BEEN_ADDED_TO_THE_COURSE);
         }
-        CourseJdbcDao.getInstance().addStudentToTheCourse(studentId, courseId);
+        CourseJdbcDao.getInstance(BANANASCHOOL_DB).addStudentToTheCourse(studentId, courseId);
         System.out.println(STUDENT_HAS_BEEN_ADDED_TO_THE_COURSE);
     }
 }

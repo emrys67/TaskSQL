@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentJdbcDao implements StudentDao<Student> {
-    private static final String BANANASCHOOL_DB = "bananaschool";
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String LAST_NAME = "lastname";
@@ -21,7 +20,7 @@ public class StudentJdbcDao implements StudentDao<Student> {
             DELETE FROM students
             WHERE students.id = ?""";
     private static final String DELETE_STUDENT_FROM_COURSE = """
-            DELETE FROM bananaschool.public.students_courses
+            DELETE FROM students_courses
             WHERE course_id = ? AND student_id = ?""";
     private static final String INSERT = """
             INSERT INTO students (name, lastname)
@@ -39,34 +38,37 @@ public class StudentJdbcDao implements StudentDao<Student> {
     private static final String FIND_STUDENTS_RELATED_TO_COURSE = """
             SELECT students.id, students.name, students.lastname, students.group_id
                                FROM students
-                                        JOIN bananaschool.public.students_courses
+                                        JOIN students_courses
                                              ON students.id = students_courses.student_id
                                         JOIN courses
                                              ON courses.id = students_courses.course_id
                                WHERE courses.name = ?
                                
             """;
+    private static String currentDataBase;
 
     private StudentJdbcDao() {
     }
 
-    public static StudentJdbcDao getInstance() {
+    public static StudentJdbcDao getInstance(String database) {
+        currentDataBase = database;
         return INSTANCE;
     }
 
     public boolean removeStudentFromCourse(Long student, Long course) {
-        try (Connection connection = ConnectionManager.open(BANANASCHOOL_DB);
+        try (Connection connection = ConnectionManager.open(currentDataBase);
              var preparestatement = connection.prepareStatement(DELETE_STUDENT_FROM_COURSE)) {
             preparestatement.setLong(1, course);
-            preparestatement.setLong(1, student);
+            preparestatement.setLong(2, student);
             return preparestatement.executeUpdate() > 0;
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             throw new DaoException(EXCEPTION_SQL);
         }
     }
 
     public List<Student> findStudentsRelatedToCourse(String courseName) {
-        try (Connection connection = ConnectionManager.open(BANANASCHOOL_DB);
+        try (Connection connection = ConnectionManager.open(currentDataBase);
              var prepareStatement = connection.prepareStatement(FIND_STUDENTS_RELATED_TO_COURSE)) {
             prepareStatement.setString(1, courseName);
             var resultSet = prepareStatement.executeQuery();
@@ -83,7 +85,7 @@ public class StudentJdbcDao implements StudentDao<Student> {
 
 
     public boolean deleteById(Long id) {
-        try (Connection connection = ConnectionManager.open(BANANASCHOOL_DB);
+        try (Connection connection = ConnectionManager.open(currentDataBase);
              var preparestatement = connection.prepareStatement(DELETE_BY_ID)) {
             preparestatement.setLong(1, id);
             return preparestatement.executeUpdate() > 0;
@@ -94,7 +96,7 @@ public class StudentJdbcDao implements StudentDao<Student> {
     }
 
     public boolean insert(Student student) {
-        try (Connection connection = ConnectionManager.open(BANANASCHOOL_DB);
+        try (Connection connection = ConnectionManager.open(currentDataBase);
              var preparestatement = connection.prepareStatement(INSERT)) {
             preparestatement.setString(1, student.getName());
             preparestatement.setString(2, student.getLastname());
@@ -105,7 +107,7 @@ public class StudentJdbcDao implements StudentDao<Student> {
     }
 
     public Student findById(Long id) {
-        try (Connection connection = ConnectionManager.open(BANANASCHOOL_DB);
+        try (Connection connection = ConnectionManager.open(currentDataBase);
              var prepareStatement = connection.prepareStatement(FIND_BY_ID)) {
             prepareStatement.setLong(1, id);
             var resultSet = prepareStatement.executeQuery();
@@ -122,7 +124,7 @@ public class StudentJdbcDao implements StudentDao<Student> {
 
 
     public boolean setGroup(Long studentId, Long groupId) {
-        try (Connection connection = ConnectionManager.open(BANANASCHOOL_DB);
+        try (Connection connection = ConnectionManager.open(currentDataBase);
              var prepareStatement = connection.prepareStatement(SET_GROUP)) {
             prepareStatement.setLong(1, groupId);
             prepareStatement.setLong(2, studentId);

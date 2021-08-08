@@ -10,6 +10,7 @@ public class FindGroupsWithStudentCountService implements Service {
     private static final String SPACE = " ";
     private static final String INSERT_COUNT_OF_STUDENTS = "Insert count of students";
     private static final String GROUPS_HAVE_NOT_BEEN_FOUNDED = "Groups have not been founded";
+    private static final String BANANASCHOOL_DB = "bananaschool";
 
     public void serve(BufferedReader reader) {
         System.out.println(INSERT_COUNT_OF_STUDENTS);
@@ -20,7 +21,7 @@ public class FindGroupsWithStudentCountService implements Service {
             e.printStackTrace();
             throw new UniversityAppException(GROUPS_HAVE_NOT_BEEN_FOUNDED);
         }
-        GroupJdbcDao.getInstance().findGroupsWithStudentCount(count).stream().forEach(group ->
+        GroupJdbcDao.getInstance(BANANASCHOOL_DB).findGroupsWithStudentCount(count).stream().forEach(group ->
                 System.out.println(group.getId() + SPACE + group.getName()));
     }
 }

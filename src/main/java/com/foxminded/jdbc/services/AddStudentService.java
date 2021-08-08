@@ -12,11 +12,12 @@ public class AddStudentService implements Service {
     private static final String INSERT_LASTNAME = "Insert lastname";
     private static final String STUDENT_HAS_BEEN_ADDED = "Student has been added";
     private static final String STUDENT_HAS_NOT_BEEN_ADDED = "Student has not been added";
+    private static final String BANANASCHOOL_DB = "bananaschool";
 
     public void serve(BufferedReader reader) {
         String name;
         String lastname;
-        try  {
+        try {
             System.out.println(INSERT_NAME);
             name = reader.readLine();
             System.out.println(INSERT_LASTNAME);
@@ -25,7 +26,7 @@ public class AddStudentService implements Service {
             e.printStackTrace();
             throw new UniversityAppException(STUDENT_HAS_NOT_BEEN_ADDED);
         }
-        StudentJdbcDao.getInstance().insert(new Student(name, lastname));
+        StudentJdbcDao.getInstance(BANANASCHOOL_DB).insert(new Student(name, lastname));
         System.out.println(STUDENT_HAS_BEEN_ADDED);
     }
 }

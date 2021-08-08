@@ -10,6 +10,7 @@ public class FindStudentsRelatedToCourseService implements Service {
     private static final String SPACE = " ";
     private static final String INSERT_COURSE_NAME = "Insert course name";
     private static final String STUDENTS_HAVE_NOT_BEEN_FOUNDED = "Students have not been founded";
+    private static final String BANANASCHOOL_DB = "bananaschool";
 
     public void serve(BufferedReader reader) {
         System.out.println(INSERT_COURSE_NAME);
@@ -20,7 +21,7 @@ public class FindStudentsRelatedToCourseService implements Service {
             e.printStackTrace();
             throw new UniversityAppException(STUDENTS_HAVE_NOT_BEEN_FOUNDED);
         }
-        StudentJdbcDao.getInstance().findStudentsRelatedToCourse(courseName).stream().forEach(student ->
+        StudentJdbcDao.getInstance(BANANASCHOOL_DB).findStudentsRelatedToCourse(courseName).stream().forEach(student ->
                 System.out.println(student.getId() + SPACE +
                         student.getGroupId() + SPACE + student.getName() + SPACE + student.getLastname()));
     }
