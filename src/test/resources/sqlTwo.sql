@@ -45,10 +45,3 @@ VALUES ('Peter','Tarantino',1),
        ('Timofey','Upi',1),
        ('Timofey','Tarantino',3)
 ;
--- INSERT INTO bananaschooltest.public.students_courses (student_id, course_id)
--- VALUES (1,1),
---        (1,2),
---        (2,1),
---        (3,1),
---        (2,2)
--- ;
