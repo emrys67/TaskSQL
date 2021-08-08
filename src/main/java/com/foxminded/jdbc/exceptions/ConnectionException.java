@@ -1,4 +1,4 @@
-package com.foxminded.jdbc.connection;
+package com.foxminded.jdbc.exceptions;
 
 public class ConnectionException extends RuntimeException{
     public ConnectionException() {

@@ -1,4 +1,4 @@
-package com.foxminded.jdbc.app;
+package com.foxminded.jdbc.exceptions;
 
 public class UniversityAppException extends RuntimeException{
     public UniversityAppException() {

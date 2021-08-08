@@ -1,4 +1,4 @@
-package com.foxminded.jdbc.app;
+package com.foxminded.jdbc.application;
 
 import com.foxminded.jdbc.connection.ConnectionManager;
 import com.foxminded.jdbc.dao.CourseJdbcDao;
@@ -7,6 +7,7 @@ import com.foxminded.jdbc.dao.StudentJdbcDao;
 import com.foxminded.jdbc.entity.Course;
 import com.foxminded.jdbc.entity.Group;
 import com.foxminded.jdbc.entity.Student;
+import com.foxminded.jdbc.exceptions.UniversityAppException;
 
 import java.io.*;
 import java.sql.Connection;

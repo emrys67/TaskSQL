@@ -2,6 +2,7 @@ package com.foxminded.jdbc.dao;
 
 import com.foxminded.jdbc.connection.ConnectionManager;
 import com.foxminded.jdbc.entity.Course;
+import com.foxminded.jdbc.exceptions.DaoException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -46,11 +47,13 @@ public class CourseJdbcDao implements CourseDao<Course> {
                           ON students.id = students_courses.student_id
             WHERE student_id = ?
             """;
+    private static String currentDataBase;
 
     private CourseJdbcDao() {
     }
 
     public static CourseJdbcDao getInstance() {
+//        currentDataBase = database;
         return INSTANCE;
     }
 

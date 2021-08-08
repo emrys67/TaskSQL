@@ -1,5 +1,7 @@
 package com.foxminded.jdbc.connection;
 
+import com.foxminded.jdbc.exceptions.ConnectionException;
+
 import java.io.IOException;
 import java.util.Properties;
 

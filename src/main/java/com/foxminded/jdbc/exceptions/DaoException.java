@@ -1,4 +1,4 @@
-package com.foxminded.jdbc.dao;
+package com.foxminded.jdbc.exceptions;
 
 public class DaoException extends RuntimeException {
     public DaoException() {
