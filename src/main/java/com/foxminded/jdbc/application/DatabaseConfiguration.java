@@ -1,6 +1,5 @@
 package com.foxminded.jdbc.application;
 
-import com.foxminded.jdbc.connection.ConnectionManager;
 import com.foxminded.jdbc.dao.CourseJdbcDao;
 import com.foxminded.jdbc.dao.GroupJdbcDao;
 import com.foxminded.jdbc.dao.StudentJdbcDao;
