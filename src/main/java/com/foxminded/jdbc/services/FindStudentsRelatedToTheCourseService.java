@@ -6,7 +6,7 @@ import com.foxminded.jdbc.dao.StudentJdbcDao;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class FindStudentsRelatedToCourseService implements Service {
+public class FindStudentsRelatedToTheCourseService implements Service {
     private static final String SPACE = " ";
     private static final String INSERT_COURSE_NAME = "Insert course name";
     private static final String STUDENTS_HAVE_NOT_BEEN_FOUNDED = "Students have not been founded";

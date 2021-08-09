@@ -6,7 +6,7 @@ import com.foxminded.jdbc.dao.CourseJdbcDao;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class AddStudentToCourseService implements Service {
+public class AddStudentToTheCourseService implements Service {
     private static final String INSERT_COURSE_ID = "Insert course id";
     private static final String INSERT_STUDENT_ID = "Insert student id";
     private static final String STUDENT_HAS_BEEN_ADDED_TO_THE_COURSE = "Student has been added to the course";

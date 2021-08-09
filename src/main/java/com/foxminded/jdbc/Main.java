@@ -9,13 +9,13 @@ public class Main {
     public static void main(String[] args) {
         DatabaseConfiguration configuration = new DatabaseConfiguration();
         AddStudentService addStudentService = new AddStudentService();
-        AddStudentToCourseService addStudentToCourseService = new AddStudentToCourseService();
+        AddStudentToTheCourseService addStudentToTheCourseService = new AddStudentToTheCourseService();
         DeleteStudentService deleteStudentService = new DeleteStudentService();
         FindGroupsWithStudentCountService findGroupsWithStudentCountService = new FindGroupsWithStudentCountService();
-        FindStudentsRelatedToCourseService findStudentsRelatedToCourseService = new FindStudentsRelatedToCourseService();
+        FindStudentsRelatedToTheCourseService findStudentsRelatedToTheCourseService = new FindStudentsRelatedToTheCourseService();
         RemoveStudentFromCourseService removeStudentFromCourseService = new RemoveStudentFromCourseService();
-        ApplicationMenu applicationMenu = new ApplicationMenu(addStudentService,addStudentToCourseService
-                ,deleteStudentService,findGroupsWithStudentCountService,findStudentsRelatedToCourseService,
+        ApplicationMenu applicationMenu = new ApplicationMenu(addStudentService, addStudentToTheCourseService
+                ,deleteStudentService,findGroupsWithStudentCountService, findStudentsRelatedToTheCourseService,
                 removeStudentFromCourseService);
         UniversityApp universityApp = new UniversityApp(applicationMenu, configuration);
         universityApp.startApp();

@@ -35,7 +35,7 @@ public class ApplicationMenu implements Menu {
     }
 
     public void executeMenu() {
-        String input = "";
+        String input;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             while (true) {
                 System.out.println(MENU);
