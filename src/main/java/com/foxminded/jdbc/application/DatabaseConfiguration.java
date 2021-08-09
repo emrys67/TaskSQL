@@ -6,6 +6,7 @@ import com.foxminded.jdbc.dao.StudentJdbcDao;
 import com.foxminded.jdbc.entity.Course;
 import com.foxminded.jdbc.entity.Group;
 import com.foxminded.jdbc.entity.Student;
+import com.foxminded.jdbc.readers.SqlScriptRunner;
 
 import java.util.ArrayList;
 import java.util.List;

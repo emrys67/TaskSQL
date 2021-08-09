@@ -1,4 +1,4 @@
-package com.foxminded.jdbc.application;
+package com.foxminded.jdbc.readers;
 
 import com.foxminded.jdbc.connection.ConnectionManager;
 import com.foxminded.jdbc.exceptions.UniversityAppException;

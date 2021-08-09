@@ -1,6 +1,6 @@
 package dao;
 
-import com.foxminded.jdbc.application.SqlScriptRunner;
+import com.foxminded.jdbc.readers.SqlScriptRunner;
 import com.foxminded.jdbc.dao.CourseJdbcDao;
 import com.foxminded.jdbc.entity.Course;
 import com.foxminded.jdbc.exceptions.DaoException;
@@ -14,7 +14,7 @@ public class CourseJdbcDaoTest {
     private static final String EXCEPTION_SQL = "CourseDao sql exception";
     private static final String BANANASCHOOL_DB = "bananaschooltest";
     private static final String SQL_CONFIG_DDL = "src/test/resources/Ddl.sql";
-    private static final String SQL_CONFIG_DML = "src/test/resources/sqlTwo.sql";
+    private static final String SQL_CONFIG_DML = "src/test/resources/Dml.sql";
     private static final String MATH = "math";
     private static final String COURSE_JAPANESE = "japanese";
     private static final String COURSE_SUSHI = "sushi";
