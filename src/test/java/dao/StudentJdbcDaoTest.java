@@ -52,7 +52,6 @@ public class StudentJdbcDaoTest {
     @BeforeAll
     public static void setup() throws Exception {
         File file = new File(CONFIGURE_SQL);
-        System.out.println(file.toString());
         RunScript.execute(ConnectionManager.open(TEST_DATABASE_URL), new FileReader(file));
     }
 
