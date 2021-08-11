@@ -18,64 +18,57 @@ public class ApplicationMenuTest {
     private ApplicationMenu applicationMenu;
     private BufferedReader reader;
     @Mock
-    private AddStudentToTheCourseService addStudentToTheCourseService;
+    private StudentJdbcService studentJdbcService;
     @Mock
-    private AddStudentService addStudentService;
+    private GroupJdbcService groupJdbcService;
     @Mock
-    private DeleteStudentService deleteStudentService;
-    @Mock
-    private FindStudentsRelatedToTheCourseService findStudentsRelatedToTheCourseService;
-    @Mock
-    private FindGroupsWithStudentCountService findGroupsWithStudentCountService;
-    @Mock
-    private RemoveStudentFromCourseService removeStudentFromCourseService;
+    private CourseJdbcService courseJdbcService;
 
     @BeforeEach
     void setUp() {
         reader = new BufferedReader(new InputStreamReader(System.in));
-        applicationMenu = new ApplicationMenu(addStudentService, addStudentToTheCourseService, deleteStudentService,
-                findGroupsWithStudentCountService, findStudentsRelatedToTheCourseService, removeStudentFromCourseService);
+        applicationMenu = new ApplicationMenu(studentJdbcService,courseJdbcService,groupJdbcService);
     }
 
     @Test
     void addStudentServicesWasUsed() {
-        doNothing().when(addStudentService).serve(reader);
+        doNothing().when(studentJdbcService).addStudent(reader);
         applicationMenu.addStudent(reader);
-        verify(addStudentService, times(1)).serve(reader);
+        verify(studentJdbcService, times(1)).addStudent(reader);
     }
 
     @Test
     void addStudentToCourseServicesWasUsed() {
-        doNothing().when(addStudentToTheCourseService).serve(reader);
+        doNothing().when(courseJdbcService).addStudentToTheCourse(reader);
         applicationMenu.addStudentToCourse(reader);
-        verify(addStudentToTheCourseService, times(1)).serve(reader);
+        verify(courseJdbcService, times(1)).addStudentToTheCourse(reader);
     }
 
     @Test
     void deleteStudentServicesWasUsed() {
-        doNothing().when(deleteStudentService).serve(reader);
+        doNothing().when(studentJdbcService).deleteStudent(reader);
         applicationMenu.deleteStudent(reader);
-        verify(deleteStudentService, times(1)).serve(reader);
+        verify(studentJdbcService, times(1)).deleteStudent(reader);
     }
 
     @Test
     void findGroupsWithStudentServicesWasUsed() {
-        doNothing().when(findGroupsWithStudentCountService).serve(reader);
+        doNothing().when(groupJdbcService).findGroupsWithStudentCount(reader);
         applicationMenu.findGroupsWithStudentCount(reader);
-        verify(findGroupsWithStudentCountService, times(1)).serve(reader);
+        verify(groupJdbcService, times(1)).findGroupsWithStudentCount(reader);
     }
 
     @Test
     void findStudentsRelatedToTheCourseServicesWasUsed() {
-        doNothing().when(findStudentsRelatedToTheCourseService).serve(reader);
+        doNothing().when(studentJdbcService).findStudentsRelatedToTheCourse(reader);
         applicationMenu.findStudentsRelatedToCourse(reader);
-        verify(findStudentsRelatedToTheCourseService, times(1)).serve(reader);
+        verify(studentJdbcService, times(1)).findStudentsRelatedToTheCourse(reader);
     }
 
     @Test
     void removeStudentFromTheCourseServicesWasUsed() {
-        doNothing().when(removeStudentFromCourseService).serve(reader);
+        doNothing().when(courseJdbcService).removeStudentFromTheCourse(reader);
         applicationMenu.removeStudentFromCourse(reader);
-        verify(removeStudentFromCourseService, times(1)).serve(reader);
+        verify(courseJdbcService, times(1)).removeStudentFromTheCourse(reader);
     }
 }

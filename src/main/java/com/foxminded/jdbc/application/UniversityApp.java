@@ -2,8 +2,8 @@ package com.foxminded.jdbc.application;
 
 
 public class UniversityApp {
-    private ApplicationMenu menu;
-    private DatabaseConfiguration configuration;
+    private final ApplicationMenu menu;
+    private final DatabaseConfiguration configuration;
 
 
     public UniversityApp(ApplicationMenu menu, DatabaseConfiguration configuration) {
@@ -12,7 +12,7 @@ public class UniversityApp {
     }
 
     public void startApp() {
-            configuration.configure();
-            menu.executeMenu();
+        configuration.configure();
+        menu.executeMenu();
     }
 }

@@ -46,18 +46,18 @@ public class CourseJdbcDao implements CourseDao<Course> {
                           ON students.id = students_courses.student_id
             WHERE student_id = ?
             """;
-    private static String currentDataBase;
+    private static String currentDataBaseURL;
 
     private CourseJdbcDao() {
     }
 
     public static CourseJdbcDao getInstance(String database) {
-        currentDataBase = database;
+        currentDataBaseURL = database;
         return INSTANCE;
     }
 
     public boolean addStudentToTheCourse(Long studentId, Long courseId) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var preparestatement = connection.prepareStatement(ADD_STUDENT_TO_THE_COURSE)) {
             preparestatement.setLong(1, studentId);
             preparestatement.setLong(2, courseId);
@@ -69,7 +69,7 @@ public class CourseJdbcDao implements CourseDao<Course> {
     }
 
     public boolean removeStudentFromCourse(Long studentId, Long courseId) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var preparestatement = connection.prepareStatement(DELETE_STUDENT_FROM_THE_COURSE)) {
             preparestatement.setLong(1, studentId);
             preparestatement.setLong(2, courseId);
@@ -80,7 +80,7 @@ public class CourseJdbcDao implements CourseDao<Course> {
     }
 
     public boolean deleteById(Long id) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var preparestatement = connection.prepareStatement(DELETE_BY_ID)) {
             preparestatement.setLong(1, id);
             return preparestatement.executeUpdate() > 0;
@@ -91,7 +91,7 @@ public class CourseJdbcDao implements CourseDao<Course> {
 
     @Override
     public boolean insert(Course course) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var preparestatement = connection.prepareStatement(INSERT)) {
             preparestatement.setString(1, course.getName());
             preparestatement.setString(2, course.getDiscription());
@@ -102,7 +102,7 @@ public class CourseJdbcDao implements CourseDao<Course> {
     }
 
     public Course findById(Long id) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var prepareStatement = connection.prepareStatement(FIND_BY_ID)) {
             prepareStatement.setLong(1, id);
             var resultSet = prepareStatement.executeQuery();
@@ -122,7 +122,7 @@ public class CourseJdbcDao implements CourseDao<Course> {
     }
 
     public List<Course> getAllCourses() {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var prepareStatement = connection.prepareStatement(GET_ALL_COURSES)) {
             var resultSet = prepareStatement.executeQuery();
             List<Course> courses = new ArrayList<>();
@@ -131,12 +131,13 @@ public class CourseJdbcDao implements CourseDao<Course> {
             }
             return courses;
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             throw new DaoException(EXCEPTION_SQL);
         }
     }
 
     public List<Course> findCoursesRelatedToStudent(Long studentId) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var prepareStatement = connection.prepareStatement(GET_STUDENT_COURSES)) {
             prepareStatement.setLong(1, studentId);
             var resultSet = prepareStatement.executeQuery();

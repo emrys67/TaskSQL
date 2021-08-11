@@ -1,7 +1,9 @@
 package com.foxminded.jdbc.application;
 
 import com.foxminded.jdbc.exceptions.UniversityAppException;
-import com.foxminded.jdbc.services.Service;
+import com.foxminded.jdbc.services.CourseService;
+import com.foxminded.jdbc.services.GroupService;
+import com.foxminded.jdbc.services.StudentService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,20 +20,14 @@ public class ApplicationMenu implements Menu {
                 e. Add a student to the course (from a list)                                                  
                 f. Remove the student from one of his or her courses
                 g. Exit""";
-    private Service addStudent;
-    private Service addStudentToTheCourse;
-    private Service deleteStudent;
-    private Service findGroups;
-    private Service findStudents;
-    private Service removeStudentFromCourse;
+    private StudentService studentService;
+    private CourseService courseService;
+    private GroupService groupService;
 
-    public ApplicationMenu(Service addStudent, Service addStudentToTheCourse, Service deleteStudent, Service findGroups, Service findStudents, Service removeStudentFromCourse) {
-        this.addStudent = addStudent;
-        this.addStudentToTheCourse = addStudentToTheCourse;
-        this.deleteStudent = deleteStudent;
-        this.findGroups = findGroups;
-        this.findStudents = findStudents;
-        this.removeStudentFromCourse = removeStudentFromCourse;
+    public ApplicationMenu(StudentService studentService, CourseService courseService, GroupService groupService) {
+        this.studentService = studentService;
+        this.courseService = courseService;
+        this.groupService = groupService;
     }
 
     public void executeMenu() {
@@ -64,74 +60,26 @@ public class ApplicationMenu implements Menu {
     }
 
     public void findGroupsWithStudentCount(BufferedReader reader) {
-        findGroups.serve(reader);
+        groupService.findGroupsWithStudentCount(reader);
     }
 
     public void findStudentsRelatedToCourse(BufferedReader reader) {
-        findStudents.serve(reader);
+        studentService.findStudentsRelatedToTheCourse(reader);
     }
 
     public void addStudent(BufferedReader reader) {
-        addStudent.serve(reader);
+        studentService.addStudent(reader);
     }
 
     public void deleteStudent(BufferedReader reader) {
-        deleteStudent.serve(reader);
+        studentService.deleteStudent(reader);
     }
 
     public void addStudentToCourse(BufferedReader reader) {
-        addStudentToTheCourse.serve(reader);
+        courseService.addStudentToTheCourse(reader);
     }
 
     public void removeStudentFromCourse(BufferedReader reader) {
-        removeStudentFromCourse.serve(reader);
-    }
-
-    public Service getAddStudent() {
-        return addStudent;
-    }
-
-    public void setAddStudent(Service addStudent) {
-        this.addStudent = addStudent;
-    }
-
-    public Service getAddStudentToTheCourse() {
-        return addStudentToTheCourse;
-    }
-
-    public void setAddStudentToTheCourse(Service addStudentToTheCourse) {
-        this.addStudentToTheCourse = addStudentToTheCourse;
-    }
-
-    public Service getDeleteStudent() {
-        return deleteStudent;
-    }
-
-    public void setDeleteStudent(Service deleteStudent) {
-        this.deleteStudent = deleteStudent;
-    }
-
-    public Service getFindGroups() {
-        return findGroups;
-    }
-
-    public void setFindGroups(Service findGroups) {
-        this.findGroups = findGroups;
-    }
-
-    public Service getFindStudents() {
-        return findStudents;
-    }
-
-    public void setFindStudents(Service findStudents) {
-        this.findStudents = findStudents;
-    }
-
-    public Service getRemoveStudentFromCourse() {
-        return removeStudentFromCourse;
-    }
-
-    public void setRemoveStudentFromCourse(Service removeStudentFromCourse) {
-        this.removeStudentFromCourse = removeStudentFromCourse;
+        courseService.removeStudentFromTheCourse(reader);
     }
 }

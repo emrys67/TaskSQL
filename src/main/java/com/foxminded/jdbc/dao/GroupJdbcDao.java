@@ -35,18 +35,18 @@ public class GroupJdbcDao implements GroupDao<Group> {
             HAVING count(students.group_id = groups.id) <= ?
                         
             """;
-    private static String currentDataBase;
+    private static String currentDataBaseURL;
 
     private GroupJdbcDao() {
     }
 
     public static GroupJdbcDao getInstance(String database) {
-        currentDataBase = database;
+        currentDataBaseURL = database;
         return INSTANCE;
     }
 
     public List<Group> findGroupsWithStudentCount(int count) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var prepareStatement = connection.prepareStatement(FIND_BY_STUDENT_COUNT)) {
             prepareStatement.setLong(1, count);
             var resultSet = prepareStatement.executeQuery();
@@ -62,7 +62,7 @@ public class GroupJdbcDao implements GroupDao<Group> {
     }
 
     public boolean deleteById(Long id) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var preparestatement = connection.prepareStatement(DELETE_BY_ID)) {
             preparestatement.setLong(1, id);
             return preparestatement.executeUpdate() > 0;
@@ -73,7 +73,7 @@ public class GroupJdbcDao implements GroupDao<Group> {
     }
 
     public boolean insert(Group group) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var preparestatement = connection.prepareStatement(INSERT)) {
             preparestatement.setString(1, group.getName());
             return preparestatement.executeUpdate() > 0;
@@ -83,7 +83,7 @@ public class GroupJdbcDao implements GroupDao<Group> {
     }
 
     public Group findById(Long id) {
-        try (Connection connection = ConnectionManager.open(currentDataBase);
+        try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var prepareStatement = connection.prepareStatement(FIND_BY_ID)) {
             prepareStatement.setLong(1, id);
             var resultSet = prepareStatement.executeQuery();

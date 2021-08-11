@@ -10,18 +10,18 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class SqlScriptRunner {
-    private static final String BANANABASE_DB = "bananabase";
+    private static final String BANANABASE_DB_URL = "jdbc:postgresql://localhost:5432/bananabase";
 
-    public void executeAllScripts(String ddlPath, String dmlPath, String database) {
-        runScript(ddlPath, BANANABASE_DB);
-        runScript(dmlPath, database);
+    public void executeAllScripts(String ddlPath, String dmlPath, String databaseURL) {
+        runScript(ddlPath, BANANABASE_DB_URL);
+        runScript(dmlPath, databaseURL);
     }
 
-    private void runScript(String path, String database) {
+    private void runScript(String path, String databaseURL) {
         StringBuilder toRun = new StringBuilder();
         try (
                 BufferedReader reader = new BufferedReader(new FileReader(path));
-                Connection connectionOne = ConnectionManager.open(database)) {
+                Connection connectionOne = ConnectionManager.open(databaseURL)) {
             while (reader.ready()) {
                 toRun.append(reader.readLine());
             }
