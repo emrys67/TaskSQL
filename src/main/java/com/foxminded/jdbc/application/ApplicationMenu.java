@@ -111,6 +111,5 @@ public class ApplicationMenu implements Menu {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
