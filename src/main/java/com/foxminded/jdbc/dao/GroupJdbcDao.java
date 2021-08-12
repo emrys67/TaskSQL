@@ -13,7 +13,6 @@ public class GroupJdbcDao implements GroupDao<Group> {
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String EXCEPTION_SQL = "GroupDao sql exception";
-    private static final GroupJdbcDao INSTANCE = new GroupJdbcDao();
     private static final String DELETE_BY_ID = """
             DELETE FROM groups
             WHERE id = ?""";
@@ -27,22 +26,17 @@ public class GroupJdbcDao implements GroupDao<Group> {
             """;
     private static final String FIND_BY_STUDENT_COUNT = """
             SELECT
-                   students.id, students.name, students.lastname, students.group_id
-            FROM students
-                     JOIN groups
-                          ON students.group_id = groups.id
-            GROUP BY students.id
-            HAVING count(students.group_id = groups.id) <= ?
-                        
+            groups.id, groups.name
+            FROM groups
+            JOIN students
+            ON groups.id = students.group_id
+            GROUP BY groups.id
+            HAVING count(students.id) <= ?
             """;
-    private static String currentDataBaseURL;
+    private final String currentDataBaseURL;
 
-    private GroupJdbcDao() {
-    }
-
-    public static GroupJdbcDao getInstance(String database) {
-        currentDataBaseURL = database;
-        return INSTANCE;
+    public GroupJdbcDao(String currentDataBaseURL) {
+        this.currentDataBaseURL = currentDataBaseURL;
     }
 
     public List<Group> findGroupsWithStudentCount(int count) {

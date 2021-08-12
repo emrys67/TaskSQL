@@ -15,7 +15,6 @@ public class StudentJdbcDao implements StudentDao<Student> {
     private static final String LAST_NAME = "lastname";
     private static final String GROUP_ID = "group_id";
     private static final String EXCEPTION_SQL = "StudentDao sql exception";
-    private static final StudentJdbcDao INSTANCE = new StudentJdbcDao();
     private static final String DELETE_BY_ID = """
             DELETE FROM students
             WHERE students.id = ?""";
@@ -45,14 +44,10 @@ public class StudentJdbcDao implements StudentDao<Student> {
                                WHERE courses.name = ?
                                
             """;
-    private static String currentDataBaseURL;
+    private final String currentDataBaseURL;
 
-    private StudentJdbcDao() {
-    }
-
-    public static StudentJdbcDao getInstance(String database) {
-        currentDataBaseURL = database;
-        return INSTANCE;
+    public StudentJdbcDao(String currentDataBaseURL) {
+        this.currentDataBaseURL = currentDataBaseURL;
     }
 
     public boolean removeStudentFromCourse(Long student, Long course) {

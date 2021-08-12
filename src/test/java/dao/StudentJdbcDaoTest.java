@@ -32,8 +32,9 @@ public class StudentJdbcDaoTest {
     private static final String EMPTY = "";
     private static final String CONFIGURE_XML = "data.xml";
     private static final String CONFIGURE_SQL = "src\\test\\resources\\schema.sql";
-
     private static IDatabaseTester tester = null;
+    private StudentJdbcDao studentJdbcDao;
+    private CourseJdbcDao courseJdbcDao;
 
     private static IDatabaseTester initDatabaseTester() throws Exception {
         JdbcDatabaseTester tester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, EMPTY, EMPTY);
@@ -59,6 +60,8 @@ public class StudentJdbcDaoTest {
     void bef() throws Exception {
         tester = initDatabaseTester();
         tester.onSetup();
+        studentJdbcDao = new StudentJdbcDao(TEST_DATABASE_URL);
+        courseJdbcDao = new CourseJdbcDao(TEST_DATABASE_URL);
     }
 
     @AfterEach
@@ -68,33 +71,33 @@ public class StudentJdbcDaoTest {
 
     @Test
     void findById() {
-        String actual = StudentJdbcDao.getInstance(TEST_DATABASE_URL).findById((long) 1).getName();
+        String actual = studentJdbcDao.findById((long) 1).getName();
         assertEquals(NAME_PETER, actual);
     }
 
     @Test
     void insert() {
-        StudentJdbcDao.getInstance(TEST_DATABASE_URL).insert(new Student(NAME, LASTNAME));
-        assertEquals(NAME, StudentJdbcDao.getInstance(TEST_DATABASE_URL).findById((long) 6).getName());
+        studentJdbcDao.insert(new Student(NAME, LASTNAME));
+        assertEquals(NAME, studentJdbcDao.findById((long) 6).getName());
     }
 
     @Test
     void deleteById() {
-        StudentJdbcDao.getInstance(TEST_DATABASE_URL).deleteById((long) 1);
-        assertEquals(null, StudentJdbcDao.getInstance(TEST_DATABASE_URL).findById((long) 1));
+        studentJdbcDao.deleteById((long) 1);
+        assertEquals(null, studentJdbcDao.findById((long) 1));
     }
 
     @Test
     void findStudentsRelatedToCourse() {
-        int actual = StudentJdbcDao.getInstance(TEST_DATABASE_URL).findStudentsRelatedToCourse(MATH).size();
+        int actual = studentJdbcDao.findStudentsRelatedToCourse(MATH).size();
         assertEquals(0, actual);
     }
 
     @Test
     void removeStudentFromCourse() {
-        CourseJdbcDao.getInstance(TEST_DATABASE_URL).addStudentToTheCourse((long) 1, (long) 1);
-        StudentJdbcDao.getInstance(TEST_DATABASE_URL).removeStudentFromCourse((long) 1, (long) 1);
-        assertFalse(CourseJdbcDao.getInstance(TEST_DATABASE_URL).findCoursesRelatedToStudent((long) 1).stream().anyMatch(
+        courseJdbcDao.addStudentToTheCourse((long) 1, (long) 1);
+        studentJdbcDao.removeStudentFromCourse((long) 1, (long) 1);
+        assertFalse(courseJdbcDao.findCoursesRelatedToStudent((long) 1).stream().anyMatch(
                 course -> course.getId() == 1));
     }
 }

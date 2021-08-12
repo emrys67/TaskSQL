@@ -3,16 +3,22 @@ package com.foxminded.jdbc;
 import com.foxminded.jdbc.application.ApplicationMenu;
 import com.foxminded.jdbc.application.DatabaseConfiguration;
 import com.foxminded.jdbc.application.UniversityApp;
+import com.foxminded.jdbc.dao.CourseJdbcDao;
+import com.foxminded.jdbc.dao.GroupJdbcDao;
+import com.foxminded.jdbc.dao.StudentJdbcDao;
 import com.foxminded.jdbc.services.*;
 
 public class Main {
     public static void main(String[] args) {
-        DatabaseConfiguration configuration = new DatabaseConfiguration();
-        StudentJdbcService studentJdbcService = new StudentJdbcService();
-        GroupJdbcService groupJdbcService = new GroupJdbcService();
-        CourseJdbcService courseJdbcService = new CourseJdbcService();
-        ApplicationMenu applicationMenu = new ApplicationMenu(studentJdbcService,courseJdbcService
-                ,groupJdbcService);
+        StudentJdbcDao studentJdbcDao = new StudentJdbcDao("jdbc:postgresql://localhost:5432/bananaschool");
+        CourseJdbcDao courseJdbcDao = new CourseJdbcDao("jdbc:postgresql://localhost:5432/bananaschool");
+        GroupJdbcDao groupJdbcDao = new GroupJdbcDao("jdbc:postgresql://localhost:5432/bananaschool");
+        DatabaseConfiguration configuration = new DatabaseConfiguration(courseJdbcDao,groupJdbcDao,studentJdbcDao);
+        StudentService studentService = new StudentService(studentJdbcDao);
+        GroupService groupService = new GroupService(groupJdbcDao);
+        CourseService courseService = new CourseService(courseJdbcDao);
+        ApplicationMenu applicationMenu = new ApplicationMenu(studentService, courseService
+                , groupService);
         UniversityApp universityApp = new UniversityApp(applicationMenu, configuration);
         universityApp.startApp();
     }

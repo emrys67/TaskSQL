@@ -17,6 +17,15 @@ public class DatabaseConfiguration {
     private static final String DDL_FILE_PATH = "src/main/resources/DDLfile.sql";
     private static final String DML_FILE_PATH = "src/main/resources/tablescreation.sql";
     private static final String HYPHEN = "-";
+    private CourseJdbcDao courseJdbcDao;
+    private GroupJdbcDao groupJdbcDao;
+    private StudentJdbcDao studentJdbcDao;
+
+    public DatabaseConfiguration(CourseJdbcDao courseJdbcDao, GroupJdbcDao groupJdbcDao, StudentJdbcDao studentJdbcDao) {
+        this.courseJdbcDao = courseJdbcDao;
+        this.groupJdbcDao = groupJdbcDao;
+        this.studentJdbcDao = studentJdbcDao;
+    }
 
     public void configure() {
         SqlScriptRunner scriptRunner = new SqlScriptRunner();
@@ -40,21 +49,21 @@ public class DatabaseConfiguration {
             int firstInt = rnd.nextInt(9);
             int secondInt = rnd.nextInt(9);
             String name = firstChar + secondChar + HYPHEN + firstInt + secondInt;
-            GroupJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Group(name));
+            groupJdbcDao.insert(new Group(name));
         }
     }
 
     private void createCourses() {
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("math", "onion"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("oop", "fish"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("biology", "potatto"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("history", "spagetti"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("english", "nudles"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("spanish", "kebab"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("russian", "pizza"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("sleeping", "bananafish"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("economy", "fingers"));
-        CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Course("algorithms", "candy"));
+        courseJdbcDao.insert(new Course("math", "onion"));
+        courseJdbcDao.insert(new Course("oop", "fish"));
+        courseJdbcDao.insert(new Course("biology", "potatto"));
+        courseJdbcDao.insert(new Course("history", "spagetti"));
+        courseJdbcDao.insert(new Course("english", "nudles"));
+        courseJdbcDao.insert(new Course("spanish", "kebab"));
+        courseJdbcDao.insert(new Course("russian", "pizza"));
+        courseJdbcDao.insert(new Course("sleeping", "bananafish"));
+        courseJdbcDao.insert(new Course("economy", "fingers"));
+        courseJdbcDao.insert(new Course("algorithms", "candy"));
     }
 
     private void createStudents() {
@@ -82,7 +91,7 @@ public class DatabaseConfiguration {
         lastNames.add("Upi");
         lastNames.add("Done");
         for (int i = 0; i < 200; i++) {
-            StudentJdbcDao.getInstance(BANANASCHOOL_DB_URL).insert(new Student(names.get(rnd.nextInt(10)),
+            studentJdbcDao.insert(new Student(names.get(rnd.nextInt(10)),
                     lastNames.get(rnd.nextInt(10))));
         }
     }
@@ -91,16 +100,16 @@ public class DatabaseConfiguration {
         for (var i = 1; i < 11; i++) {
             for (var a = 0; a < 10; a++) {
                 long studentId = (long) ((Math.random() * (199)) + 1);
-                if (StudentJdbcDao.getInstance(BANANASCHOOL_DB_URL).findById(studentId).getGroupId() == 0) {
-                    StudentJdbcDao.getInstance(BANANASCHOOL_DB_URL).setGroup(studentId, (long) i);
+                if (studentJdbcDao.findById(studentId).getGroupId() == 0) {
+                    studentJdbcDao.setGroup(studentId, (long) i);
                 }
             }
         }
         for (var i = 0; i < 100; i++) {
             long studentId = (long) ((Math.random() * (199)) + 1);
             long groupId = (long) ((Math.random() * (9)) + 1);
-            if (StudentJdbcDao.getInstance(BANANASCHOOL_DB_URL).findById(studentId).getGroupId() == 0) {
-                StudentJdbcDao.getInstance(BANANASCHOOL_DB_URL).setGroup(studentId, groupId);
+            if (studentJdbcDao.findById(studentId).getGroupId() == 0) {
+                studentJdbcDao.setGroup(studentId, groupId);
             }
         }
     }
@@ -112,7 +121,7 @@ public class DatabaseConfiguration {
             repeats = (int) ((Math.random() * (2)) + 1);
             for (var a = 0; a < repeats; a++) {
                 courseId = (long) ((Math.random() * (9)) + 1);
-                CourseJdbcDao.getInstance(BANANASCHOOL_DB_URL).addStudentToTheCourse((long) i, courseId);
+                courseJdbcDao.addStudentToTheCourse((long) i, courseId);
             }
         }
     }

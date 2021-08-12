@@ -14,7 +14,6 @@ public class CourseJdbcDao implements CourseDao<Course> {
     private static final String NAME = "name";
     private static final String DISCRIPTION = "discription";
     private static final String EXCEPTION_SQL = "CourseDao sql exception";
-    private static final CourseJdbcDao INSTANCE = new CourseJdbcDao();
     private static final String ADD_STUDENT_TO_THE_COURSE = """
             INSERT INTO students_courses (student_id, course_id)
             VALUES (?,?)
@@ -46,14 +45,10 @@ public class CourseJdbcDao implements CourseDao<Course> {
                           ON students.id = students_courses.student_id
             WHERE student_id = ?
             """;
-    private static String currentDataBaseURL;
+    private final String currentDataBaseURL;
 
-    private CourseJdbcDao() {
-    }
-
-    public static CourseJdbcDao getInstance(String database) {
-        currentDataBaseURL = database;
-        return INSTANCE;
+    public CourseJdbcDao(String currentDataBaseURL) {
+        this.currentDataBaseURL = currentDataBaseURL;
     }
 
     public boolean addStudentToTheCourse(Long studentId, Long courseId) {

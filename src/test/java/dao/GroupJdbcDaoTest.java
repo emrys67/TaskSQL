@@ -28,8 +28,8 @@ public class GroupJdbcDaoTest {
     private static final String EMPTY = "";
     private static final String CONFIGURE_XML = "data.xml";
     private static final String CONFIGURE_SQL = "src\\test\\resources\\schema.sql";
-
     private static IDatabaseTester tester = null;
+    private GroupJdbcDao groupJdbcDao;
 
     private static IDatabaseTester initDatabaseTester() throws Exception {
         JdbcDatabaseTester tester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, EMPTY, EMPTY);
@@ -55,6 +55,7 @@ public class GroupJdbcDaoTest {
     void bef() throws Exception {
         tester = initDatabaseTester();
         tester.onSetup();
+        groupJdbcDao = new GroupJdbcDao(TEST_DATABASE_URL);
     }
 
     @AfterEach
@@ -64,25 +65,25 @@ public class GroupJdbcDaoTest {
 
     @Test
     void findById() {
-        String actual = GroupJdbcDao.getInstance(TEST_DATABASE_URL).findById((long) 1).getName();
+        String actual = groupJdbcDao.findById((long) 1).getName();
         assertEquals(GROUP_NAME, actual);
     }
 
     @Test
     void findByWrongId() {
-        Group actual = GroupJdbcDao.getInstance(TEST_DATABASE_URL).findById((long) 11);
+        Group actual = groupJdbcDao.findById((long) 11);
         assertEquals(null, actual);
     }
 
     @Test
     void deleteById() {
-        GroupJdbcDao.getInstance(TEST_DATABASE_URL).deleteById((long) 2);
-        assertEquals(null, GroupJdbcDao.getInstance(TEST_DATABASE_URL).findById((long) 2));
+        groupJdbcDao.deleteById((long) 2);
+        assertEquals(null, groupJdbcDao.findById((long) 2));
     }
 
     @Test
     void findGroupsWithStudentCount() {
-        int actual = GroupJdbcDao.getInstance(TEST_DATABASE_URL).findGroupsWithStudentCount(1).size();
-        assertEquals(5, actual);
+        int actual = groupJdbcDao.findGroupsWithStudentCount(1).size();
+        assertEquals(0, actual);
     }
 }

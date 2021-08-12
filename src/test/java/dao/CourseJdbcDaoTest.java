@@ -1,7 +1,6 @@
 package dao;
 
 import com.foxminded.jdbc.connection.ConnectionManager;
-import com.foxminded.jdbc.dao.StudentJdbcDao;
 import com.foxminded.jdbc.dao.CourseJdbcDao;
 import com.foxminded.jdbc.entity.Course;
 import com.foxminded.jdbc.exceptions.DaoException;
@@ -34,6 +33,7 @@ public class CourseJdbcDaoTest {
     private static final String JDBC_DRIVER = org.h2.Driver.class.getName();
     private static final String EMPTY = "";
     private static IDatabaseTester tester = null;
+    private CourseJdbcDao courseJdbcDao;
 
     private static IDatabaseTester initDatabaseTester() throws Exception {
         JdbcDatabaseTester tester = new JdbcDatabaseTester(JDBC_DRIVER, JDBC_URL, EMPTY, EMPTY);
@@ -59,6 +59,7 @@ public class CourseJdbcDaoTest {
     void bef() throws Exception {
         tester = initDatabaseTester();
         tester.onSetup();
+        courseJdbcDao = new CourseJdbcDao(TEST_DATABASE_URL);
     }
 
     @AfterEach
@@ -68,69 +69,68 @@ public class CourseJdbcDaoTest {
 
     @Test
     void studentAddedToTheCourse() {
-        CourseJdbcDao.getInstance(TEST_DATABASE_URL).addStudentToTheCourse((long) 3, (long) 1);
-        assertTrue(CourseJdbcDao.getInstance(TEST_DATABASE_URL).findCoursesRelatedToStudent((long) 3).stream().anyMatch(course -> course.getId() == 1));
+        courseJdbcDao.addStudentToTheCourse((long) 3, (long) 1);
+        assertTrue(courseJdbcDao.findCoursesRelatedToStudent((long) 3).stream().anyMatch(course -> course.getId() == 1));
 
     }
 
     @Test
     void addStudentToTheCourseWrongInput() {
         Exception exception = assertThrows(DaoException.class, () -> {
-            CourseJdbcDao.getInstance(TEST_DATABASE_URL).addStudentToTheCourse((long) 15, (long) 13);
+            courseJdbcDao.addStudentToTheCourse((long) 15, (long) 13);
         });
         assertEquals(EXCEPTION_SQL, exception.getMessage());
     }
 
     @Test
     void studentRemovedFromTheCourse() {
-        CourseJdbcDao.getInstance(TEST_DATABASE_URL).removeStudentFromCourse((long) 1, (long) 1);
-        assertFalse(CourseJdbcDao.getInstance(TEST_DATABASE_URL).findCoursesRelatedToStudent((long) 1).stream().anyMatch(course -> course.getId() == 1));
+        courseJdbcDao.removeStudentFromCourse((long) 1, (long) 1);
+        assertFalse(courseJdbcDao.findCoursesRelatedToStudent((long) 1).stream().anyMatch(course -> course.getId() == 1));
     }
 
     @Test
     void removeStudentFromTheCourseWrongInput() {
         Exception exception = assertThrows(DaoException.class, () -> {
-            CourseJdbcDao.getInstance(TEST_DATABASE_URL).addStudentToTheCourse((long) 154, (long) 153);
+            courseJdbcDao.addStudentToTheCourse((long) 154, (long) 153);
         });
         assertEquals(EXCEPTION_SQL, exception.getMessage());
     }
 
     @Test
     void CourseInserted() {
-        CourseJdbcDao.getInstance(TEST_DATABASE_URL).insert(new Course(COURSE_JAPANESE, COURSE_SUSHI));
-        assertTrue(CourseJdbcDao.getInstance(TEST_DATABASE_URL).getAllCourses().stream().anyMatch(course -> course.getName().equals(COURSE_JAPANESE)));
+        courseJdbcDao.insert(new Course(COURSE_JAPANESE, COURSE_SUSHI));
+        assertTrue(courseJdbcDao.getAllCourses().stream().anyMatch(course -> course.getName().equals(COURSE_JAPANESE)));
     }
 
     @Test
     void findById() {
-        String actualName = CourseJdbcDao.getInstance(TEST_DATABASE_URL).findById((long) 1).getName();
+        String actualName = courseJdbcDao.findById((long) 1).getName();
         assertEquals(MATH, actualName);
     }
 
     @Test
     void findByWrongId() {
         Exception exception = assertThrows(DaoException.class, () -> {
-            CourseJdbcDao.getInstance(TEST_DATABASE_URL).findById((long) 111);
+            courseJdbcDao.findById((long) 111);
         });
         assertEquals(EXCEPTION_SQL, exception.getMessage());
     }
 
     @Test
     void getAllCourses() {
-        int actual = CourseJdbcDao.getInstance(TEST_DATABASE_URL).getAllCourses().size();
+        int actual = courseJdbcDao.getAllCourses().size();
         assertEquals(5, actual);
     }
 
     @Test
     void findCoursesRelatedToStudent() {
-        int actual = CourseJdbcDao.getInstance(TEST_DATABASE_URL).findCoursesRelatedToStudent((long) 1).size();
+        int actual = courseJdbcDao.findCoursesRelatedToStudent((long) 1).size();
         assertEquals(0, actual);
     }
 
     @Test
     void findCoursesRelatedToWrongStudentId() {
-        int actual = CourseJdbcDao.getInstance(TEST_DATABASE_URL).findCoursesRelatedToStudent((long) 111).size();
+        int actual = courseJdbcDao.findCoursesRelatedToStudent((long) 111).size();
         assertEquals(0, actual);
     }
-
 }
