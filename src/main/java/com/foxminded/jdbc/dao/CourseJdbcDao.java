@@ -2,7 +2,6 @@ package com.foxminded.jdbc.dao;
 
 import com.foxminded.jdbc.connection.ConnectionManager;
 import com.foxminded.jdbc.entity.Course;
-import com.foxminded.jdbc.entity.Student;
 import com.foxminded.jdbc.exceptions.DaoException;
 
 import java.sql.Connection;
@@ -85,7 +84,6 @@ public class CourseJdbcDao implements CourseDao<Course> {
         }
     }
 
-    @Override
     public boolean insert(Course course) {
         try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var preparestatement = connection.prepareStatement(INSERT)) {
