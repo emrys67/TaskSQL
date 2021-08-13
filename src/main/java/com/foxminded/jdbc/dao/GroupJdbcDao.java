@@ -2,6 +2,7 @@ package com.foxminded.jdbc.dao;
 
 import com.foxminded.jdbc.connection.ConnectionManager;
 import com.foxminded.jdbc.entity.Group;
+import com.foxminded.jdbc.entity.Student;
 import com.foxminded.jdbc.exceptions.DaoException;
 
 import java.sql.Connection;

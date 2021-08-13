@@ -27,7 +27,7 @@ public class ApplicationMenu implements Menu {
     private static final String STUDENT_HAS_BEEN_DELETED = "Student has been deleted";
     private static final String INSERT_STUDENT_ID = "Insert student id";
     private static final String INSERT_COUNT_OF_STUDENTS = "Insert count of students";
-    private static final String INSERT_STUDENT_AND_COURSE_ID = "Insert \"[studentID] [courseID]\"";
+    private static final String INSERT_STUDENT_AND_COURSE_ID = "Insert \"studentID\"[ENTER]\"courseID\"";
     private static final String STUDENT_HAS_BEEN_ADDED_TO_THE_COURSE = "Student has been added to the course";
     private static final String INSERT_COURSE_ID = "Insert course id";
     private final StudentService studentService;
