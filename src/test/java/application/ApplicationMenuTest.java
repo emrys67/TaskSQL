@@ -4,6 +4,7 @@ import com.foxminded.jdbc.application.ApplicationMenu;
 import com.foxminded.jdbc.entity.Group;
 import com.foxminded.jdbc.entity.Student;
 import com.foxminded.jdbc.services.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,5 +72,16 @@ public class ApplicationMenuTest {
         when(studentService.findStudentsRelatedToTheCourse(reader)).thenReturn(list);
         applicationMenu.findStudentsRelatedToCourse(reader);
         verify(studentService, times(1)).findStudentsRelatedToTheCourse(reader);
+    }
+
+    @Test
+    void removeStudentFromCourseServicesWasUsed() {
+        InputStream sysInBackup = System.in;
+        System.setIn(new ByteArrayInputStream("1\n1".getBytes()));
+        reader = new BufferedReader(new InputStreamReader(System.in));
+        doNothing().when(courseService).removeStudentFromTheCourse(reader, (long) 1);
+        applicationMenu.removeStudentFromCourse(reader);
+        verify(courseService, times(1)).removeStudentFromTheCourse(reader, (long) 1);
+        System.setIn(sysInBackup);
     }
 }
