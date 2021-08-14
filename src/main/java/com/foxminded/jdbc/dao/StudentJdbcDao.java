@@ -78,7 +78,6 @@ public class StudentJdbcDao implements StudentDao<Student> {
         }
     }
 
-
     public boolean deleteById(Long id) {
         try (Connection connection = ConnectionManager.open(currentDataBaseURL);
              var preparestatement = connection.prepareStatement(DELETE_BY_ID)) {
@@ -117,7 +116,6 @@ public class StudentJdbcDao implements StudentDao<Student> {
             throw new DaoException(EXCEPTION_SQL);
         }
     }
-
 
     public boolean setGroup(Long studentId, Long groupId) {
         try (Connection connection = ConnectionManager.open(currentDataBaseURL);
