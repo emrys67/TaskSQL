@@ -1,6 +1,6 @@
 package services;
 
-import com.foxminded.jdbc.dao.GroupDao;
+import com.foxminded.jdbc.dao.GroupJdbcDao;
 import com.foxminded.jdbc.entity.Group;
 import com.foxminded.jdbc.services.GroupService;
 import org.junit.jupiter.api.AfterEach;
@@ -26,7 +26,7 @@ public class GroupServiceTest {
     private GroupService groupService;
     private BufferedReader reader;
     @Mock
-    private GroupDao groupDao;
+    private GroupJdbcDao groupDao;
 
     @BeforeEach
     void setUp() {
@@ -47,5 +47,12 @@ public class GroupServiceTest {
         when(groupDao.findGroupsWithStudentCount(1)).thenReturn(list);
         groupService.findGroupsWithStudentCount(reader);
         verify(groupDao, times(1)).findGroupsWithStudentCount(1);
+    }
+
+    @Test
+    void createGroups(){
+        when(groupDao.insert(any())).thenReturn(true);
+        groupService.createGroups();
+        verify(groupDao, times(10)).insert(any());
     }
 }

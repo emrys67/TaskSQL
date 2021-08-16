@@ -1,6 +1,6 @@
 package services;
 
-import com.foxminded.jdbc.dao.StudentDao;
+import com.foxminded.jdbc.dao.StudentJdbcDao;
 import com.foxminded.jdbc.entity.Student;
 import com.foxminded.jdbc.services.StudentService;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ public class StudentServiceTest {
     private StudentService studentService;
     private BufferedReader reader;
     @Mock
-    private StudentDao studentDao;
+    private StudentJdbcDao studentDao;
 
     @BeforeEach
     void setUp() {
@@ -68,5 +68,12 @@ public class StudentServiceTest {
         when(studentDao.deleteById((long) 1)).thenReturn(true);
         studentService.deleteStudent(reader);
         verify(studentDao, times(1)).deleteById((long) 1);
+    }
+
+    @Test
+    void createStudents(){
+        when(studentDao.insert(any())).thenReturn(true);
+        studentService.createStudents();
+        verify(studentDao,times(200)).insert(any());
     }
 }

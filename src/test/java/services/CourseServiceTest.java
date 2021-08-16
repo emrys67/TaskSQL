@@ -1,6 +1,6 @@
 package services;
 
-import com.foxminded.jdbc.dao.CourseDao;
+import com.foxminded.jdbc.dao.CourseJdbcDao;
 import com.foxminded.jdbc.entity.Course;
 import com.foxminded.jdbc.services.CourseService;
 import org.junit.jupiter.api.AfterEach;
@@ -26,7 +26,7 @@ public class CourseServiceTest {
     private CourseService courseService;
     private BufferedReader reader;
     @Mock
-    private CourseDao courseDao;
+    private CourseJdbcDao courseDao;
 
     @BeforeEach
     void setUp() {
@@ -75,5 +75,19 @@ public class CourseServiceTest {
         when(courseDao.getAllCourses()).thenReturn(list);
         courseService.getAllCourses();
         verify(courseDao, times(1)).getAllCourses();
+    }
+
+    @Test
+    void createCourses(){
+        when(courseDao.insert(any())).thenReturn(true);
+        courseService.createCourses();
+        verify(courseDao, times(10)).insert(any());
+    }
+
+    @Test
+    void assignCourses(){
+        when(courseDao.addStudentToTheCourse(any(),any())).thenReturn(true);
+        courseService.assignCourses();
+        verify(courseDao, atLeast(1)).addStudentToTheCourse(any(),any());
     }
 }

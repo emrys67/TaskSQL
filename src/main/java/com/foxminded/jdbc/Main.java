@@ -13,10 +13,10 @@ public class Main {
         StudentJdbcDao studentJdbcDao = new StudentJdbcDao("jdbc:postgresql://localhost:5432/bananaschool");
         CourseJdbcDao courseJdbcDao = new CourseJdbcDao("jdbc:postgresql://localhost:5432/bananaschool");
         GroupJdbcDao groupJdbcDao = new GroupJdbcDao("jdbc:postgresql://localhost:5432/bananaschool");
-        DatabaseConfiguration configuration = new DatabaseConfiguration(courseJdbcDao,groupJdbcDao,studentJdbcDao);
         StudentService studentService = new StudentService(studentJdbcDao);
         GroupService groupService = new GroupService(groupJdbcDao);
         CourseService courseService = new CourseService(courseJdbcDao);
+        DatabaseConfiguration configuration = new DatabaseConfiguration(courseService,groupService,studentService);
         ApplicationMenu applicationMenu = new ApplicationMenu(studentService, courseService
                 , groupService);
         UniversityApp universityApp = new UniversityApp(applicationMenu, configuration);
