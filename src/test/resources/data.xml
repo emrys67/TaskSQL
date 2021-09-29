@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <groups id='1' name='fg-12'/>
+    <groups id='2' name='tg-12'/>
+    <groups id='3' name='gt-24'/>
+    <groups id='4' name='fh-94'/>
+    <groups id='5' name='og-72'/>
+    <groups id='6' name='se-01'/>
+    <students id= '1' group_id='1' name='Peter' lastname='Tarantino'/>
+    <students id= '2' group_id='2' name='Dmitri' lastname='Tesco'/>
+    <students id= '3' group_id='1' name='Sakura' lastname='Mob'/>
+    <students id= '4' group_id='2' name='Timofey' lastname='Upi'/>
+    <students id= '5' group_id='1' name='Timofey' lastname='Tarantino'/>
+    <courses id='1' name='math' discription='onion'/>
+    <courses id='2' name='oop' discription='fish'/>
+    <courses id='3' name='biology' discription='potatto'/>
+    <courses id='4' name='history' discription='spagetti'/>
+    <courses id='5' name='english' discription='nudles'/>
+</dataset>

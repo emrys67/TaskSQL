@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS courses
+(
+    id          SERIAL PRIMARY KEY,
+    name        VARCHAR UNIQUE NOT NULL,
+    discription VARCHAR(100)
+);
+CREATE TABLE IF NOT EXISTS groups
+(
+    id   SERIAL PRIMARY KEY ,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+CREATE TABLE IF NOT EXISTS students
+(
+    id       SERIAL PRIMARY KEY,
+    group_id INTEGER,
+    name     VARCHAR(50)  NOT NULL,
+    lastname VARCHAR(50)  NOT NULL,
+    FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS students_courses
+(
+    student_id INTEGER ,
+    course_id INTEGER,
+    FOREIGN KEY (student_id) REFERENCES students (id) ON DELETE CASCADE ,
+    FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE CASCADE
+);
